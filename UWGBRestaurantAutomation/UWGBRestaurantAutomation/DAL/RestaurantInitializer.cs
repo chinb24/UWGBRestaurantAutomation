@@ -13,11 +13,11 @@ namespace UWGBRestaurantAutomation.DAL
         {
             var customers = new List<Customer>
             {
-                new Customer{FirstName="Carson",LastName="Alexander"},
-                new Customer{FirstName="Meredith",LastName="Alonso"},
-                new Customer{FirstName="Arturo",LastName="Anand"},
-                new Customer{FirstName="Gytis",LastName="Barzdukas"},
-                new Customer{FirstName="Peggy",LastName="Justice"}
+                new Customer{FirstName="Carson",LastName="Alexander", CustomerEmail="customer@gmail.com"},
+                new Customer{FirstName="Meredith",LastName="Alonso", CustomerEmail="customer2@gmail.com"},
+                new Customer{FirstName="Arturo",LastName="Anand", CustomerEmail="customer3@gmail.com"},
+                new Customer{FirstName="Gytis",LastName="Barzdukas", CustomerEmail="customer4@gmail.com"},
+                new Customer{FirstName="Peggy",LastName="Justice", CustomerEmail="customer5@gmail.com"}
             };
 
             customers.ForEach(x => context.Customers.Add(x));

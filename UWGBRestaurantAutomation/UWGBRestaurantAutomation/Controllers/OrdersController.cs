@@ -38,9 +38,30 @@ namespace UWGBRestaurantAutomation.Controllers
         }
 
         // GET: Orders/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
-            ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "FirstName");
+            // Populate an OrderNumber (if one doesn't exist) for the Customer session
+            if(Session["OrderNumber"] == null)
+            {
+                Session["OrderNumber"] = GenerateOrderNumber();
+            }
+            // Populate TableNumber
+            if (Session["TableNumber"] == null)
+            {
+                Session["TableNumber"] = GenerateTableNumber();
+            }
+
+            // Variables
+            ViewBag.OrderNumber = Session["OrderNumber"];
+            ViewBag.TableNumber = Session["TableNumber"];
+            ViewBag.OrderDate = DateTime.Now;
+
+            // Preselected Product
+            ViewBag.ProductId = new SelectList(db.Products, "ProductId", "ProductName", id);
+
+            // Get Customer Id to Preselct
+            var customerId = db.Customers.Where(x => x.CustomerEmail == User.Identity.Name).Select(x => x.CustomerId).First();
+            ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "CustomerEmail", customerId);
             return View();
         }
 
@@ -128,6 +149,21 @@ namespace UWGBRestaurantAutomation.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public int GenerateOrderNumber()
+        {
+            int min = 1000;
+            int max = 9999;
+            Random random = new Random();
+            return random.Next(min, max);
+        }
+        public int GenerateTableNumber()
+        {
+            int min = 1;
+            int max = 15;
+            Random random = new Random();
+            return random.Next(min, max);
         }
     }
 }

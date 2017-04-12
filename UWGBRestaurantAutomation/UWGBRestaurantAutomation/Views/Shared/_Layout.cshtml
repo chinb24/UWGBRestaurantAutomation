@@ -19,12 +19,16 @@
                 </button>
                 @Html.ActionLink("Restaurant Automation", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
+            
             <div class="navbar-collapse collapse">
+                @if (Request.IsAuthenticated)
+                {
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Customers", "Index", "Customers", null, null)</li>
                     <li>@Html.ActionLink("Menu", "Index", "Products", null, null)</li>
                     <li>@Html.ActionLink("My Order", "Index", "Orders", null, null)</li>
                 </ul>
+                }
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
