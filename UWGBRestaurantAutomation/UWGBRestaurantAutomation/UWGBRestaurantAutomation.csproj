@@ -186,6 +186,10 @@
     <Compile Include="Migrations\201704121734431_AddCustomerEmail.Designer.cs">
       <DependentUpon>201704121734431_AddCustomerEmail.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704281727161_productimagefield.cs" />
+    <Compile Include="Migrations\201704281727161_productimagefield.Designer.cs">
+      <DependentUpon>201704281727161_productimagefield.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -291,6 +295,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704121734431_AddCustomerEmail.resx">
       <DependentUpon>201704121734431_AddCustomerEmail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704281727161_productimagefield.resx">
+      <DependentUpon>201704281727161_productimagefield.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

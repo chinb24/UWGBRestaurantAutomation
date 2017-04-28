@@ -50,6 +50,8 @@ namespace UWGBRestaurantAutomation.Controllers
             {
                 Session["TableNumber"] = GenerateTableNumber();
             }
+            // Default Quantity
+            var Quantity = 1;
 
             // Variables
             ViewBag.OrderNumber = Session["OrderNumber"];
@@ -63,6 +65,19 @@ namespace UWGBRestaurantAutomation.Controllers
             var customerId = db.Customers.Where(x => x.CustomerEmail == User.Identity.Name).Select(x => x.CustomerId).First();
             ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "CustomerEmail", customerId);
             return View();
+
+            // Create the Order
+            var order = new Order();
+            order.CustomerId = customerId;
+            order.OrderDate = DateTime.Now;
+            order.OrderNumber = Int32.Parse(Session["OrderNumber"].ToString());
+            order.OrderQuantity = Quantity;
+            order.ProductId = id;
+            order.TableNumber = Int32.Parse(Session["TableNumber"].ToString());
+
+            db.Orders.Add(order);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // POST: Orders/Create
