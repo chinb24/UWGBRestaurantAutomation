@@ -18,19 +18,32 @@ namespace UWGBRestaurantAutomation.Controllers
         // GET: Orders
         public ActionResult Index()
         {
-            var Customer = db.Customers.Where(x => x.CustomerEmail == User.Identity.Name).First();
-            int CustomerID = Customer.CustomerId;
-            if (Session["OrderNumber"] == null)
+            // Check if Customer/Server/Cook and Display Accordingly
+            if (User.Identity.Name.Contains("customer"))
             {
-                var orders = db.Orders.Include(o => o.Customer).Where(x => x.CustomerId == CustomerID && x.OrderNumber == 0);
+                var Customer = db.Customers.Where(x => x.CustomerEmail == User.Identity.Name).First();
+                int CustomerID = Customer.CustomerId;
+                if (Session["OrderNumber"] == null)
+                {
+                    var orders = db.Orders.Include(o => o.Customer).Where(x => x.CustomerId == CustomerID && x.OrderNumber == 0);
+                    ViewBag.Role = "Customer";
+                    return View(orders.ToList());
+                }
+                else
+                {
+                    int OrderNumber = Convert.ToInt32(Session["OrderNumber"].ToString());
+                    var orders = db.Orders.Include(o => o.Customer).Where(x => x.CustomerId == CustomerID && x.OrderNumber == OrderNumber);
+                    ViewBag.Role = "Customer";
+                    return View(orders.ToList());
+                }
+            }
+            if (User.Identity.Name.Contains("server"))
+            {
+                var orders = db.Orders.Include(o => o.Customer).Where(x => x.OrderDate >= DateTime.Today);
+                ViewBag.Role = "Server";
                 return View(orders.ToList());
             }
-            else
-            {
-                int OrderNumber = Convert.ToInt32(Session["OrderNumber"].ToString());
-                var orders = db.Orders.Include(o => o.Customer).Where(x => x.CustomerId == CustomerID && x.OrderNumber == OrderNumber);
-                return View(orders.ToList());
-            }
+            return View();
         }
 
         // GET: Orders/Details/5
