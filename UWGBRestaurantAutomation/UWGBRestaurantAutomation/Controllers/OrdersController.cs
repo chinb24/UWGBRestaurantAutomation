@@ -18,8 +18,19 @@ namespace UWGBRestaurantAutomation.Controllers
         // GET: Orders
         public ActionResult Index()
         {
-            var orders = db.Orders.Include(o => o.Customer);
-            return View(orders.ToList());
+            var Customer = db.Customers.Where(x => x.CustomerEmail == User.Identity.Name).First();
+            int CustomerID = Customer.CustomerId;
+            if (Session["OrderNumber"] == null)
+            {
+                var orders = db.Orders.Include(o => o.Customer).Where(x => x.CustomerId == CustomerID && x.OrderNumber == 0);
+                return View(orders.ToList());
+            }
+            else
+            {
+                int OrderNumber = Convert.ToInt32(Session["OrderNumber"].ToString());
+                var orders = db.Orders.Include(o => o.Customer).Where(x => x.CustomerId == CustomerID && x.OrderNumber == OrderNumber);
+                return View(orders.ToList());
+            }
         }
 
         // GET: Orders/Details/5
@@ -64,7 +75,6 @@ namespace UWGBRestaurantAutomation.Controllers
             // Get Customer Id to Preselct
             var customerId = db.Customers.Where(x => x.CustomerEmail == User.Identity.Name).Select(x => x.CustomerId).First();
             ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "CustomerEmail", customerId);
-            return View();
 
             // Create the Order
             var order = new Order();
@@ -77,7 +87,7 @@ namespace UWGBRestaurantAutomation.Controllers
 
             db.Orders.Add(order);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Orders");
         }
 
         // POST: Orders/Create
