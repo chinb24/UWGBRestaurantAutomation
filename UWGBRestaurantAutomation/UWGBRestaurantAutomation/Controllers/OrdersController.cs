@@ -43,6 +43,12 @@ namespace UWGBRestaurantAutomation.Controllers
                 ViewBag.Role = "Server";
                 return View(orders.ToList());
             }
+            if (User.Identity.Name.Contains("cook"))
+            {
+                var orders = db.Orders.Include(o => o.Customer).Where(x => x.OrderDate >= DateTime.Today);
+                ViewBag.Role = "Cook";
+                return View(orders.ToList());
+            }
             return View();
         }
 

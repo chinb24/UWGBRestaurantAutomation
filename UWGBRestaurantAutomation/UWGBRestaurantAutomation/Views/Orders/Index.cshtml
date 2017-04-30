@@ -4,11 +4,9 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Orders</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
 @{ 
     if (ViewBag.Role == "Server")
     {
@@ -17,5 +15,9 @@
     if (ViewBag.Role == "Customer")
     {
         Html.RenderPartial("_Customers");
+    }
+    if (ViewBag.Role == "Cook")
+    {
+        Html.RenderPartial("_Cooks");
     }
 }

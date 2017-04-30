@@ -1,0 +1,82 @@
+﻿@model UWGBRestaurantAutomation.Models.Payment
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Payment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Total)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Total)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CCName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CCName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CCNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CCNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CCMonth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CCMonth)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CCYear)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CCYear)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CCSecurity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CCSecurity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentDate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PaymentId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

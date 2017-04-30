@@ -1,0 +1,75 @@
+﻿@model IEnumerable<UWGBRestaurantAutomation.Models.Payment>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Total)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CCName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CCNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CCMonth)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CCYear)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CCSecurity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentDate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Total)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CCName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CCNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CCMonth)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CCYear)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CCSecurity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PaymentDate)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.PaymentId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.PaymentId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.PaymentId })
+        </td>
+    </tr>
+}
+
+</table>

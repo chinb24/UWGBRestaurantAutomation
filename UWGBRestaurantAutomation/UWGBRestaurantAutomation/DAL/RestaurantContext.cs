@@ -22,5 +22,7 @@ namespace UWGBRestaurantAutomation.DAL
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
+
+        public System.Data.Entity.DbSet<UWGBRestaurantAutomation.Models.Payment> Payments { get; set; }
     }
 }
