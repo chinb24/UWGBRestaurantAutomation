@@ -207,6 +207,13 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\4CheeseMac.png" />
+    <Content Include="Assets\BoneInPorkChop.png" />
+    <Content Include="Assets\CedarSalmon.png" />
+    <Content Include="Assets\DoubleCrunchShrimp.jpg" />
+    <Content Include="Assets\ShrimpWontonStirFry.jpg" />
+    <Content Include="Assets\SirloinStirFry.png" />
+    <Content Include="Assets\SmokinDouble.png" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\index.html" />
@@ -331,7 +338,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>61287</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
