@@ -7,7 +7,7 @@ using System.Data.Entity;
 
 namespace UWGBRestaurantAutomation.DAL
 {
-    public class RestaurantInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<RestaurantContext>
+    public class RestaurantInitializer : System.Data.Entity.CreateDatabaseIfNotExists<RestaurantContext>
     {
         protected override void Seed(RestaurantContext context)
         {
