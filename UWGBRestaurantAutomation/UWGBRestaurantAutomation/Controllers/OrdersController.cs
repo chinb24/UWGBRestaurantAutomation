@@ -18,8 +18,32 @@ namespace UWGBRestaurantAutomation.Controllers
         // GET: Orders
         public ActionResult Index()
         {
-            var orders = db.Orders.Include(o => o.Customer);
-            return View(orders.ToList());
+            // Check if Customer/Server/Cook and Display Accordingly
+            if (User.Identity.Name.Contains("customer"))
+            {
+                var Customer = db.Customers.Where(x => x.CustomerEmail == User.Identity.Name).First();
+                int CustomerID = Customer.CustomerId;
+                if (Session["OrderNumber"] == null)
+                {
+                    var orders = db.Orders.Include(o => o.Customer).Where(x => x.CustomerId == CustomerID && x.OrderNumber == 0);
+                    ViewBag.Role = "Customer";
+                    return View(orders.ToList());
+                }
+                else
+                {
+                    int OrderNumber = Convert.ToInt32(Session["OrderNumber"].ToString());
+                    var orders = db.Orders.Include(o => o.Customer).Where(x => x.CustomerId == CustomerID && x.OrderNumber == OrderNumber);
+                    ViewBag.Role = "Customer";
+                    return View(orders.ToList());
+                }
+            }
+            if (User.Identity.Name.Contains("server"))
+            {
+                var orders = db.Orders.Include(o => o.Customer).Where(x => x.OrderDate >= DateTime.Today);
+                ViewBag.Role = "Server";
+                return View(orders.ToList());
+            }
+            return View();
         }
 
         // GET: Orders/Details/5
@@ -50,6 +74,8 @@ namespace UWGBRestaurantAutomation.Controllers
             {
                 Session["TableNumber"] = GenerateTableNumber();
             }
+            // Default Quantity
+            var Quantity = 1;
 
             // Variables
             ViewBag.OrderNumber = Session["OrderNumber"];
@@ -62,7 +88,19 @@ namespace UWGBRestaurantAutomation.Controllers
             // Get Customer Id to Preselct
             var customerId = db.Customers.Where(x => x.CustomerEmail == User.Identity.Name).Select(x => x.CustomerId).First();
             ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "CustomerEmail", customerId);
-            return View();
+
+            // Create the Order
+            var order = new Order();
+            order.CustomerId = customerId;
+            order.OrderDate = DateTime.Now;
+            order.OrderNumber = Int32.Parse(Session["OrderNumber"].ToString());
+            order.OrderQuantity = Quantity;
+            order.ProductId = id;
+            order.TableNumber = Int32.Parse(Session["TableNumber"].ToString());
+
+            db.Orders.Add(order);
+            db.SaveChanges();
+            return RedirectToAction("Index", "Orders");
         }
 
         // POST: Orders/Create
