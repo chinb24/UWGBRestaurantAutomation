@@ -22,7 +22,10 @@ select,
 textarea {
     max-width: 280px;
 }
-
+.navbar
+{
+    color: black;
+}
 body
 {
     background: url(https://source.unsplash.com/Nb_Q-M3Cdzg);

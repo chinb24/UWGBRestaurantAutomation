@@ -7,7 +7,7 @@ using System.Data.Entity;
 
 namespace UWGBRestaurantAutomation.DAL
 {
-    public class RestaurantInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<RestaurantContext>
+    public class RestaurantInitializer : System.Data.Entity.CreateDatabaseIfNotExists<RestaurantContext>
     {
         protected override void Seed(RestaurantContext context)
         {
@@ -36,7 +36,7 @@ namespace UWGBRestaurantAutomation.DAL
 
             products.ForEach(x => context.Products.Add(x));
             context.SaveChanges();
-
+            /*
             var orders = new List<Order>
             {
                 new Order { CustomerId=1, ProductId=1, OrderNumber=3112, OrderQuantity=1, OrderDate=DateTime.Now, TableNumber=1 },
@@ -53,6 +53,7 @@ namespace UWGBRestaurantAutomation.DAL
 
             orders.ForEach(x => context.Orders.Add(x));
             context.SaveChanges();
+            */
         }
     }
 }
