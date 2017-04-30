@@ -31,8 +31,7 @@ body
     color:white;
 }
 
-html
-{
+html{
     height: 100%;
 }
 #content
@@ -56,6 +55,4 @@ hr
     border-top: 1px solid #f8f8f8;
     border-bottom: 1px solid rgba(0,0,0,0.2);
 }
-table {
-    background-color: rgba(0, 0, 0, 0.5);
-}
+

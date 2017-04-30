@@ -9,7 +9,7 @@
 
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+<div class="navbar  navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -21,14 +21,14 @@
             </div>
             
             <div class="navbar-collapse collapse">
-                @if (Request.IsAuthenticated)
-                {
+                
+                
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Customers", "Index", "Customers", null, null)</li>
                     <li>@Html.ActionLink("Menu", "Index", "Products", null, null)</li>
                     <li>@Html.ActionLink("My Order", "Index", "Orders", null, null)</li>
                 </ul>
-                }
+                
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
@@ -37,7 +37,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Restaurant Automation</p>
+           
         </footer>
     </div>
 
