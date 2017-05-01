@@ -21,20 +21,47 @@ namespace UWGBRestaurantAutomation.Controllers
             // Check if Customer/Server/Cook and Display Accordingly
             if (User.Identity.Name.Contains("customer"))
             {
-                var Customer = db.Customers.Where(x => x.CustomerEmail == User.Identity.Name).First();
-                int CustomerID = Customer.CustomerId;
+                var Customers = db.Customers.Where(x => x.CustomerEmail == User.Identity.Name).First();
+                int CustomerID = Customers.CustomerId;
                 if (Session["OrderNumber"] == null)
                 {
                     var orders = db.Orders.Include(o => o.Customer).Where(x => x.CustomerId == CustomerID && x.OrderNumber == 0);
+                    // Use ViewModel
+                    var query = (from o in db.Orders
+                                 join p in db.Products on o.ProductId equals p.ProductId
+                                 where o.CustomerId == CustomerID && o.OrderNumber == 0
+                                 select new CustomerViewModel
+                                 {
+                                     ProductImage = p.ProductImage,
+                                     ProductName = p.ProductName,
+                                     ProductPrice = p.ProductPrice,
+                                     OrderId = o.OrderId
+                                 }).ToList().AsQueryable();
+
+
                     ViewBag.Role = "Customer";
-                    return View(orders.ToList());
+                    return View(query);
                 }
                 else
                 {
                     int OrderNumber = Convert.ToInt32(Session["OrderNumber"].ToString());
                     var orders = db.Orders.Include(o => o.Customer).Where(x => x.CustomerId == CustomerID && x.OrderNumber == OrderNumber);
+
+                    // Use ViewModel
+                    var query = (from o in db.Orders
+                                 join p in db.Products on o.ProductId equals p.ProductId
+                                 where o.CustomerId == CustomerID && o.OrderNumber == OrderNumber
+                                 select new CustomerViewModel
+                                 {
+                                     ProductImage = p.ProductImage,
+                                     ProductName = p.ProductName,
+                                     ProductPrice = p.ProductPrice,
+                                     OrderId = o.OrderId
+                                 }).ToList().AsQueryable();
+                                
+
                     ViewBag.Role = "Customer";
-                    return View(orders.ToList());
+                    return View(query);
                 }
             }
             if (User.Identity.Name.Contains("server"))

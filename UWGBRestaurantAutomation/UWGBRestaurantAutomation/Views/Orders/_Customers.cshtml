@@ -1,23 +1,14 @@
-﻿@model IEnumerable<UWGBRestaurantAutomation.Models.Order>
+﻿@model IEnumerable<UWGBRestaurantAutomation.Models.CustomerViewModel>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Customer.FirstName)
+            @Html.DisplayNameFor(model => model.ProductName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ProductId)
+            @Html.DisplayNameFor(model => model.ProductImage)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.OrderNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OrderQuantity)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TableNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OrderDate)
+            @Html.DisplayNameFor(model => model.ProductPrice)
         </th>
         <th></th>
     </tr>
@@ -26,22 +17,13 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Customer.FirstName)
+                @Html.DisplayFor(modelItem => item.ProductName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProductId)
+                <img src="@Url.Content(item.ProductImage)" alt="Product" width="140px" />
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.OrderNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderQuantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TableNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderDate)
+                @Html.DisplayFor(modelItem => item.ProductPrice)
             </td>
             <td>
                 @Html.ActionLink("Delete", "Delete", new { id = item.OrderId })
