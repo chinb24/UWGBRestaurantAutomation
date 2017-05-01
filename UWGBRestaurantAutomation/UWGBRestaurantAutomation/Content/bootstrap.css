@@ -246,7 +246,7 @@ th {
     page-break-after: avoid;
   }
   .navbar {
-    display: none;
+      background-color: orange;
   }
   .btn > .caret,
   .dropup > .btn > .caret {
@@ -4168,6 +4168,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-top-left-radius: 0;
 }
 .navbar {
+    color: orange;
   position: relative;
   min-height: 45px;
   margin-bottom: 21px;
@@ -4496,17 +4497,22 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
     margin-right: 0;
   }
 }
+ @import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
 .navbar-default {
-  background-color: #333333;
+  background-color: #222222;
   border-color: #222222;
+  font-family: 'Roboto Mono', monospace;
 }
 .navbar-default .navbar-brand {
   color: #ffffff;
+    font-size: 20px;
+    font-family: 'Roboto Mono', monospace;
 }
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {
   color: #ffffff;
   background-color: transparent;
+  font-family: 'Roboto Mono', monospace;
 }
 .navbar-default .navbar-text {
   color: #ffffff;
@@ -4593,8 +4599,8 @@ fieldset[disabled] .navbar-default .btn-link:focus {
   color: #cccccc;
 }
 .navbar-inverse {
-  background-color: #008cba;
-  border-color: #006687;
+  background-color: orange !important;
+  border-color: orange;
 }
 .navbar-inverse .navbar-brand {
   color: #ffffff;
@@ -4613,13 +4619,13 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 .navbar-inverse .navbar-nav > li > a:hover,
 .navbar-inverse .navbar-nav > li > a:focus {
   color: #ffffff;
-  background-color: #006687;
+  background-color: grey;
 }
 .navbar-inverse .navbar-nav > .active > a,
 .navbar-inverse .navbar-nav > .active > a:hover,
 .navbar-inverse .navbar-nav > .active > a:focus {
   color: #ffffff;
-  background-color: #006687;
+  background-color: grey;
 }
 .navbar-inverse .navbar-nav > .disabled > a,
 .navbar-inverse .navbar-nav > .disabled > a:hover,
@@ -4639,20 +4645,20 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 }
 .navbar-inverse .navbar-collapse,
 .navbar-inverse .navbar-form {
-  border-color: #007196;
+  border-color: #orange;
 }
 .navbar-inverse .navbar-nav > .open > a,
 .navbar-inverse .navbar-nav > .open > a:hover,
 .navbar-inverse .navbar-nav > .open > a:focus {
-  background-color: #006687;
+  background-color: #orange;
   color: #ffffff;
 }
 @media (max-width: 767px) {
   .navbar-inverse .navbar-nav .open .dropdown-menu > .dropdown-header {
-    border-color: #006687;
+    border-color: orange;
   }
   .navbar-inverse .navbar-nav .open .dropdown-menu .divider {
-    background-color: #006687;
+    background-color: orange;
   }
   .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
     color: #ffffff;
@@ -4660,13 +4666,13 @@ fieldset[disabled] .navbar-default .btn-link:focus {
   .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:hover,
   .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:focus {
     color: #ffffff;
-    background-color: #006687;
+    background-color: orange;
   }
   .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a,
   .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a:hover,
   .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a:focus {
     color: #ffffff;
-    background-color: #006687;
+    background-color: orange;
   }
   .navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a,
   .navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a:hover,
@@ -4728,7 +4734,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   padding: 8px 12px;
   line-height: 1.4;
   text-decoration: none;
-  color: #008cba;
+  color: orange;
   background-color: transparent;
   border: 1px solid transparent;
   margin-left: -1px;
@@ -4749,7 +4755,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .pagination > li > a:focus,
 .pagination > li > span:focus {
   z-index: 2;
-  color: #008cba;
+  color: orange;
   background-color: #eeeeee;
   border-color: transparent;
 }
@@ -4761,7 +4767,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .pagination > .active > span:focus {
   z-index: 3;
   color: #ffffff;
-  background-color: #008cba;
+  background-color: orange;
   border-color: transparent;
   cursor: default;
 }
@@ -4897,7 +4903,7 @@ a.label:focus {
 }
 .label-info[href]:hover,
 .label-info[href]:focus {
-  background-color: #31b0d5;
+  background-color: orange;
 }
 .label-warning {
   background-color: #e99002;
@@ -4924,7 +4930,7 @@ a.label:focus {
   vertical-align: middle;
   white-space: nowrap;
   text-align: center;
-  background-color: #008cba;
+  background-color: orange;
   border-radius: 10px;
 }
 .badge:empty {
