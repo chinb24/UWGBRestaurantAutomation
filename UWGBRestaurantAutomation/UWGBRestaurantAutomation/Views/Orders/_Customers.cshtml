@@ -29,12 +29,15 @@
                 @Html.ActionLink("Delete", "Delete", new { id = item.OrderId })
             </td>
         </tr>
-    }
+    
 
     <tr>
-        <td>
-            @Html.ActionLink("Pay for Order", "Create", "Payments", null, null)
+        <td colspan="4">
+            @if(item.Ordering){
+                @Html.ActionLink("Pay for Order", "Create", "Payments", null, null)
+            }
         </td>
     </tr>
+    }
 
 </table>

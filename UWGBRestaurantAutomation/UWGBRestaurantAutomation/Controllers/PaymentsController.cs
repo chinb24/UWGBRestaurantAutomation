@@ -80,6 +80,10 @@ namespace UWGBRestaurantAutomation.Controllers
                 payment.PaymentDate = DateTime.Now;
                 db.Entry(payment).State = EntityState.Modified;
                 db.SaveChanges();
+
+                //After payment is made, lets reset the OrderNumber session so we're starting a new order now
+                Session["OrderNumber"] = null;
+
                 return RedirectToAction("Success");
             }
 

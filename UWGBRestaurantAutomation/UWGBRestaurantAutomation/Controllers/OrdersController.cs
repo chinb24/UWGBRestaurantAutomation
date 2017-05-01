@@ -35,7 +35,8 @@ namespace UWGBRestaurantAutomation.Controllers
                                      ProductImage = p.ProductImage,
                                      ProductName = p.ProductName,
                                      ProductPrice = p.ProductPrice,
-                                     OrderId = o.OrderId
+                                     OrderId = o.OrderId,
+                                     Ordering = false
                                  }).ToList().AsQueryable();
 
 
@@ -56,9 +57,9 @@ namespace UWGBRestaurantAutomation.Controllers
                                      ProductImage = p.ProductImage,
                                      ProductName = p.ProductName,
                                      ProductPrice = p.ProductPrice,
-                                     OrderId = o.OrderId
+                                     OrderId = o.OrderId,
+                                     Ordering = true
                                  }).ToList().AsQueryable();
-                                
 
                     ViewBag.Role = "Customer";
                     return View(query);
