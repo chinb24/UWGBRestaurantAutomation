@@ -18,7 +18,23 @@ namespace UWGBRestaurantAutomation.Controllers
         // GET: Payments
         public ActionResult Index()
         {
-            return View(db.Payments.ToList());
+            // Check if Customer/Server/Cook and Display Accordingly
+            if (User.Identity.Name.Contains("customer"))
+            {
+                ViewBag.Role = "Customer";
+                return View(db.Payments.ToList());
+            }
+            if (User.Identity.Name.Contains("server"))
+            {
+                ViewBag.Role = "Server";
+                return View(db.Payments.ToList());
+            }
+            if (User.Identity.Name.Contains("cook"))
+            {
+                ViewBag.Role = "Cook";
+                return View(db.Payments.ToList());
+            }
+            return View();
         }
 
         // GET: Payments/Details/5
@@ -39,7 +55,11 @@ namespace UWGBRestaurantAutomation.Controllers
         // GET: Payments/Create
         public ActionResult Create()
         {
-            return View();
+            // Get the Order Number and Retrieve Payment Model
+            var OrderNumber = Int32.Parse(Session["OrderNumber"].ToString());
+            var paymentId = db.Payments.Where(x => x.OrderNumber == OrderNumber).Select(x => x.PaymentId).First();
+            Payment payment = db.Payments.Find(paymentId);
+            return View(payment);
         }
 
         // POST: Payments/Create
@@ -47,13 +67,20 @@ namespace UWGBRestaurantAutomation.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PaymentId,OrderNumber,Total,CCName,CCNumber,CCMonth,CCYear,CCSecurity,PaymentDate")] Payment payment)
+        public ActionResult Create([Bind(Include = "PaymentId,OrderNumber,Total,CCName,CCNumber,CCMonth,CCYear,CCSecurity,PaymentDate,Paid")] Payment payment)
         {
             if (ModelState.IsValid)
             {
-                db.Payments.Add(payment);
+                //db.Payments.Add(payment);
+                var OrderNumber = Int32.Parse(Session["OrderNumber"].ToString());
+                var paymentId = db.Payments.Where(x => x.OrderNumber == OrderNumber).Select(x => x.PaymentId).First();
+                payment.OrderNumber = OrderNumber;
+                payment.PaymentId = paymentId;
+                payment.Paid = true;
+                payment.PaymentDate = DateTime.Now;
+                db.Entry(payment).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Success");
             }
 
             return View(payment);
@@ -114,6 +141,11 @@ namespace UWGBRestaurantAutomation.Controllers
             db.Payments.Remove(payment);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Success()
+        {
+            return View("~/Views/Payments/Success.cshtml");
         }
 
         protected override void Dispose(bool disposing)

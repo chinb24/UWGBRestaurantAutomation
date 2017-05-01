@@ -21,20 +21,47 @@ namespace UWGBRestaurantAutomation.Controllers
             // Check if Customer/Server/Cook and Display Accordingly
             if (User.Identity.Name.Contains("customer"))
             {
-                var Customer = db.Customers.Where(x => x.CustomerEmail == User.Identity.Name).First();
-                int CustomerID = Customer.CustomerId;
+                var Customers = db.Customers.Where(x => x.CustomerEmail == User.Identity.Name).First();
+                int CustomerID = Customers.CustomerId;
                 if (Session["OrderNumber"] == null)
                 {
                     var orders = db.Orders.Include(o => o.Customer).Where(x => x.CustomerId == CustomerID && x.OrderNumber == 0);
+                    // Use ViewModel
+                    var query = (from o in db.Orders
+                                 join p in db.Products on o.ProductId equals p.ProductId
+                                 where o.CustomerId == CustomerID && o.OrderNumber == 0
+                                 select new CustomerViewModel
+                                 {
+                                     ProductImage = p.ProductImage,
+                                     ProductName = p.ProductName,
+                                     ProductPrice = p.ProductPrice,
+                                     OrderId = o.OrderId
+                                 }).ToList().AsQueryable();
+
+
                     ViewBag.Role = "Customer";
-                    return View(orders.ToList());
+                    return View(query);
                 }
                 else
                 {
                     int OrderNumber = Convert.ToInt32(Session["OrderNumber"].ToString());
                     var orders = db.Orders.Include(o => o.Customer).Where(x => x.CustomerId == CustomerID && x.OrderNumber == OrderNumber);
+
+                    // Use ViewModel
+                    var query = (from o in db.Orders
+                                 join p in db.Products on o.ProductId equals p.ProductId
+                                 where o.CustomerId == CustomerID && o.OrderNumber == OrderNumber
+                                 select new CustomerViewModel
+                                 {
+                                     ProductImage = p.ProductImage,
+                                     ProductName = p.ProductName,
+                                     ProductPrice = p.ProductPrice,
+                                     OrderId = o.OrderId
+                                 }).ToList().AsQueryable();
+                                
+
                     ViewBag.Role = "Customer";
-                    return View(orders.ToList());
+                    return View(query);
                 }
             }
             if (User.Identity.Name.Contains("server"))
@@ -84,6 +111,7 @@ namespace UWGBRestaurantAutomation.Controllers
             var Quantity = 1;
 
             // Variables
+            var OrderNumber = Int32.Parse(Session["OrderNumber"].ToString());
             ViewBag.OrderNumber = Session["OrderNumber"];
             ViewBag.TableNumber = Session["TableNumber"];
             ViewBag.OrderDate = DateTime.Now;
@@ -103,9 +131,52 @@ namespace UWGBRestaurantAutomation.Controllers
             order.OrderQuantity = Quantity;
             order.ProductId = id;
             order.TableNumber = Int32.Parse(Session["TableNumber"].ToString());
-
             db.Orders.Add(order);
             db.SaveChanges();
+
+            // Create the Payment (Invoice)
+            // If payment already doesn't exist, create new, else update the same record with new total
+            var paymentexist = db.Payments.Where(x => x.OrderNumber == OrderNumber).FirstOrDefault();
+            if (paymentexist == null)
+            {
+                var payment = new Payment();
+                payment.OrderNumber = OrderNumber;
+
+                // Calculate the Total
+                decimal total = 0;
+                var query = db.Orders.Join(db.Products, ord => ord.ProductId, prod => prod.ProductId, (ord, prod) => new { Order = ord, Product = prod }).Where(x => x.Order.OrderNumber == OrderNumber).ToList();
+                foreach (var val in query)
+                {
+                    // Get price from product db
+                    total += val.Product.ProductPrice;
+                }
+                payment.Total = total;
+                payment.PaymentDate = DateTime.Now;
+
+                var db2 = new RestaurantContext();
+                db2.Payments.Add(payment);
+                db2.SaveChanges();
+            }
+            else
+            {
+                var payment = db.Payments.Where(x => x.OrderNumber == OrderNumber).First();
+
+                // Calculate the Total
+                decimal total = 0;
+                var query = db.Orders.Join(db.Products, ord => ord.ProductId, prod => prod.ProductId, (ord, prod) => new { Order = ord, Product = prod }).Where(x => x.Order.OrderNumber == OrderNumber).ToList();
+                foreach (var val in query)
+                {
+                    // Get price from product db
+                    total += val.Product.ProductPrice;
+                }
+                payment.Total = total;
+                payment.PaymentDate = DateTime.Now;
+
+                var db2 = new RestaurantContext();
+                db2.Entry(payment).State = EntityState.Modified;
+                db2.SaveChanges();
+            }
+
             return RedirectToAction("Index", "Orders");
         }
 
