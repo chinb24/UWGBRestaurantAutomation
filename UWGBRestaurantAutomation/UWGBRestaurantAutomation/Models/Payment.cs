@@ -15,6 +15,7 @@ namespace UWGBRestaurantAutomation.Models
         public int CCMonth { get; set; }
         public int CCYear { get; set; }
         public int CCSecurity { get; set; }
+        public bool Paid { get; set; }
         public DateTime PaymentDate { get; set; }
     }
 }

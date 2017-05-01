@@ -84,6 +84,7 @@ namespace UWGBRestaurantAutomation.Controllers
             var Quantity = 1;
 
             // Variables
+            var OrderNumber = Int32.Parse(Session["OrderNumber"].ToString());
             ViewBag.OrderNumber = Session["OrderNumber"];
             ViewBag.TableNumber = Session["TableNumber"];
             ViewBag.OrderDate = DateTime.Now;
@@ -103,9 +104,52 @@ namespace UWGBRestaurantAutomation.Controllers
             order.OrderQuantity = Quantity;
             order.ProductId = id;
             order.TableNumber = Int32.Parse(Session["TableNumber"].ToString());
-
             db.Orders.Add(order);
             db.SaveChanges();
+
+            // Create the Payment (Invoice)
+            // If payment already doesn't exist, create new, else update the same record with new total
+            var paymentexist = db.Payments.Where(x => x.OrderNumber == OrderNumber).FirstOrDefault();
+            if (paymentexist == null)
+            {
+                var payment = new Payment();
+                payment.OrderNumber = OrderNumber;
+
+                // Calculate the Total
+                decimal total = 0;
+                var query = db.Orders.Join(db.Products, ord => ord.ProductId, prod => prod.ProductId, (ord, prod) => new { Order = ord, Product = prod }).Where(x => x.Order.OrderNumber == OrderNumber).ToList();
+                foreach (var val in query)
+                {
+                    // Get price from product db
+                    total += val.Product.ProductPrice;
+                }
+                payment.Total = total;
+                payment.PaymentDate = DateTime.Now;
+
+                var db2 = new RestaurantContext();
+                db2.Payments.Add(payment);
+                db2.SaveChanges();
+            }
+            else
+            {
+                var payment = db.Payments.Where(x => x.OrderNumber == OrderNumber).First();
+
+                // Calculate the Total
+                decimal total = 0;
+                var query = db.Orders.Join(db.Products, ord => ord.ProductId, prod => prod.ProductId, (ord, prod) => new { Order = ord, Product = prod }).Where(x => x.Order.OrderNumber == OrderNumber).ToList();
+                foreach (var val in query)
+                {
+                    // Get price from product db
+                    total += val.Product.ProductPrice;
+                }
+                payment.Total = total;
+                payment.PaymentDate = DateTime.Now;
+
+                var db2 = new RestaurantContext();
+                db2.Entry(payment).State = EntityState.Modified;
+                db2.SaveChanges();
+            }
+
             return RedirectToAction("Index", "Orders");
         }
 
