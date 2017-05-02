@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using UWGBRestaurantAutomation.Models;
+using System.Collections.Generic;
 
 namespace UWGBRestaurantAutomation.Controllers
 {
@@ -139,6 +140,15 @@ namespace UWGBRestaurantAutomation.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            //var u = new RegisterViewModel();
+            //u.Role = new SelectList(
+            //    new List<SelectListItem>
+            //    {
+            //        new SelectListItem { Text = "Customer", Value = "Customer"},
+            //        new SelectListItem { Text = "Server", Value = "Server"},
+            //        new SelectListItem { Text = "Cook", Value = "Cook"}
+            //    }, "Value", "Text");
+
             return View();
         }
 
@@ -156,12 +166,22 @@ namespace UWGBRestaurantAutomation.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    // Add Role to Customer Table
+                    var cust = new Customer();
+                    cust.FirstName = model.FirstName;
+                    cust.LastName = model.LastName;
+                    cust.Role = model.Role;
+                    cust.CustomerEmail = model.Email;
+                    var db = new DAL.RestaurantContext();
+                    db.Customers.Add(cust);
+                    db.SaveChanges();
 
                     return RedirectToAction("Index", "Home");
                 }

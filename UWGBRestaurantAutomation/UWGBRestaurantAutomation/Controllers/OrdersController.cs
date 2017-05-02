@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using UWGBRestaurantAutomation.DAL;
 using UWGBRestaurantAutomation.Models;
+using UWGBRestaurantAutomation.Repository;
 
 namespace UWGBRestaurantAutomation.Controllers
 {
@@ -19,7 +20,7 @@ namespace UWGBRestaurantAutomation.Controllers
         public ActionResult Index()
         {
             // Check if Customer/Server/Cook and Display Accordingly
-            if (User.Identity.Name.Contains("customer"))
+            if (Utility.GetRole(User.Identity.Name) == "customer")
             {
                 var Customers = db.Customers.Where(x => x.CustomerEmail == User.Identity.Name).First();
                 int CustomerID = Customers.CustomerId;
@@ -65,13 +66,13 @@ namespace UWGBRestaurantAutomation.Controllers
                     return View(query);
                 }
             }
-            if (User.Identity.Name.Contains("server"))
+            if (Utility.GetRole(User.Identity.Name) == "server")
             {
                 var orders = db.Orders.Include(o => o.Customer).Where(x => x.OrderDate >= DateTime.Today);
                 ViewBag.Role = "Server";
                 return View(orders.ToList());
             }
-            if (User.Identity.Name.Contains("cook"))
+            if (Utility.GetRole(User.Identity.Name) == "cook")
             {
                 var orders = db.Orders.Include(o => o.Customer).Where(x => x.OrderDate >= DateTime.Today);
                 ViewBag.Role = "Cook";

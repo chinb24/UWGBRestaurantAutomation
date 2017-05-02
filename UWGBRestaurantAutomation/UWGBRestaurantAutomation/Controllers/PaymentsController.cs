@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using UWGBRestaurantAutomation.DAL;
 using UWGBRestaurantAutomation.Models;
+using UWGBRestaurantAutomation.Repository;
 
 namespace UWGBRestaurantAutomation.Controllers
 {
@@ -19,17 +20,17 @@ namespace UWGBRestaurantAutomation.Controllers
         public ActionResult Index()
         {
             // Check if Customer/Server/Cook and Display Accordingly
-            if (User.Identity.Name.Contains("customer"))
+            if (Utility.GetRole(User.Identity.Name) == "customer")
             {
                 ViewBag.Role = "Customer";
                 return View(db.Payments.ToList());
             }
-            if (User.Identity.Name.Contains("server"))
+            if (Utility.GetRole(User.Identity.Name) == "server")
             {
                 ViewBag.Role = "Server";
                 return View(db.Payments.ToList());
             }
-            if (User.Identity.Name.Contains("cook"))
+            if (Utility.GetRole(User.Identity.Name) == "cook")
             {
                 ViewBag.Role = "Cook";
                 return View(db.Payments.ToList());

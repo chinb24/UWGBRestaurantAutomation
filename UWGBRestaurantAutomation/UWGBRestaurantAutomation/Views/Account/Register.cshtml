@@ -9,8 +9,22 @@
 {
     @Html.AntiForgeryToken()
     <h4>Create a new account.</h4>
-    
+
     @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+        </div>
+    </div>
+
     <div class="form-group">
         @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
@@ -27,6 +41,38 @@
         @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Role, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @*@Html.TextBoxFor(m => m.Role, new { @class = "form-control" })*@
+
+
+            @{
+                List<SelectListItem> listItems = new List<SelectListItem>();
+                listItems.Add(new SelectListItem
+                {
+                    Text = "Customer",
+                    Value = "customer",
+                    Selected = true
+                });
+                listItems.Add(new SelectListItem
+                {
+                    Text = "Server",
+                    Value = "server"
+                });
+                listItems.Add(new SelectListItem
+                {
+                    Text = "Cook",
+                    Value = "cook"
+                });
+            }
+
+            @Html.DropDownListFor(model => model.Role, listItems, "Select a Role", "Text")
+
+
+
         </div>
     </div>
     <div class="form-group">

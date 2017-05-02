@@ -11,6 +11,7 @@ namespace UWGBRestaurantAutomation.Models
         public string CustomerEmail { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string Role { get; set; }
         
         public virtual ICollection<Order> Orders { get; set; }
     }
