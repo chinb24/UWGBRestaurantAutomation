@@ -13,6 +13,7 @@ namespace UWGBRestaurantAutomation.Models
         public string ProductImage { get; set; }
         public bool Ordering { get; set; }
         public int TableNumber { get; set; }
+        public int OrderNumber { get; set; }
         public DateTime OrderDate { get; set; }
     }
 }

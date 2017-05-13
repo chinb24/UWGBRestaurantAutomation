@@ -69,8 +69,22 @@ namespace UWGBRestaurantAutomation.Controllers
             if (Utility.GetRole(User.Identity.Name) == "server")
             {
                 var orders = db.Orders.Include(o => o.Customer).Where(x => x.OrderDate >= DateTime.Today);
+
+                // Use ViewModel
+                var query = (from o in db.Orders
+                             join p in db.Products on o.ProductId equals p.ProductId
+                             select new ServerViewModel
+                             {
+                                 ProductImage = p.ProductImage,
+                                 ProductName = p.ProductName,
+                                 ProductPrice = p.ProductPrice,
+                                 TableNumber = o.TableNumber,
+                                 OrderDate = o.OrderDate,
+                                 OrderNumber = o.OrderNumber
+                             }).ToList().AsQueryable();
+
                 ViewBag.Role = "Server";
-                return View(orders.ToList());
+                return View(query);
             }
             if (Utility.GetRole(User.Identity.Name) == "cook")
             {
