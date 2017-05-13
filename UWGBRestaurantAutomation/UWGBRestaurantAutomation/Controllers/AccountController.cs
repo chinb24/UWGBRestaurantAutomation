@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using UWGBRestaurantAutomation.Models;
 using System.Collections.Generic;
+using UWGBRestaurantAutomation.Repository;
 
 namespace UWGBRestaurantAutomation.Controllers
 {
@@ -80,6 +81,7 @@ namespace UWGBRestaurantAutomation.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    Session["Role"] = Utility.GetRole(model.Email);
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
