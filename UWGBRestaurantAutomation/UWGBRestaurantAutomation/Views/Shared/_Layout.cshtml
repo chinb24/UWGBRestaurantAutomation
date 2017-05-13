@@ -24,23 +24,21 @@
                 @if (Request.IsAuthenticated && ((string)Session["Role"] == "customer"))
                 {
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Menu", "Index", "Products", null, null)</li>
-                    <li>@Html.ActionLink("Order", "Index", "Orders", null, null)</li>
-                    <li>@Html.ActionLink("Payment", "Index", "Payments", null, null)</li>
+                    <li>@Html.ActionLink("Restaurant Menu", "Index", "Products", null, null)</li>
+                    <li>@Html.ActionLink("My Order", "Index", "Orders", null, null)</li>
                 </ul>
                 }
                 @if (Request.IsAuthenticated && ((string)Session["Role"] == "server"))
                 {
                     <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Menu", "Index", "Products", null, null)</li>
-                        <li>@Html.ActionLink("Order", "Index", "Orders", null, null)</li>
-                        <li>@Html.ActionLink("Payment", "Index", "Payments", null, null)</li>
+                        <li>@Html.ActionLink("Orders", "Index", "Orders", null, null)</li>
+                        <li>@Html.ActionLink("Payments", "Index", "Payments", null, null)</li>
                     </ul>
                 }
                 @if (Request.IsAuthenticated && ((string)Session["Role"] == "cook"))
                 {
                     <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Order", "Index", "Orders", null, null)</li>
+                        <li>@Html.ActionLink("Orders", "Index", "Orders", null, null)</li>
                     </ul>
                 }
                 @Html.Partial("_LoginPartial")

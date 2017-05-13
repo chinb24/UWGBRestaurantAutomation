@@ -185,6 +185,9 @@ namespace UWGBRestaurantAutomation.Controllers
                     db.Customers.Add(cust);
                     db.SaveChanges();
 
+                    // Set role in session
+                    Session["Role"] = model.Role;
+
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);

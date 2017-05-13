@@ -40,7 +40,7 @@ namespace UWGBRestaurantAutomation.Controllers
                                      Ordering = false
                                  }).ToList().AsQueryable();
 
-
+                    ViewBag.Ordering = false;
                     ViewBag.Role = "Customer";
                     return View(query);
                 }
@@ -61,7 +61,7 @@ namespace UWGBRestaurantAutomation.Controllers
                                      OrderId = o.OrderId,
                                      Ordering = true
                                  }).ToList().AsQueryable();
-
+                    ViewBag.Ordering = true;
                     ViewBag.Role = "Customer";
                     return View(query);
                 }
